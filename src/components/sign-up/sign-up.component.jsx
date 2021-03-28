@@ -79,6 +79,7 @@ class SignUp extends React.Component {
                         value={password}
                         onChange={this.handleChange}
                         label='Password'
+                        minLength='6'
                         required
                     />
                     <FormInput
