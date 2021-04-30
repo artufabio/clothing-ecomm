@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import './App.css';
@@ -48,7 +48,10 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
-          <Route path='/signin' component={SignInAndSignUpPage} />
+          <Route 
+            exact 
+            path='/signin' 
+            render={() => this.props.currentUser ? (<Redirect to='/' />) : (<SignInAndSignUpPage />)} />
         </Switch>
       </div>
     );
@@ -56,8 +59,12 @@ class App extends React.Component {
   
 }
 
+const mapStateToProps = state =>({
+  currentUser: state.user.currentUser
+})
+
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))  //we invoke the setCurrentUser function(from the user.actions.js) that returns the action object. in this way I get the currentUser value and I don't need a state in the constructore anymore
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect( mapStateToProps, mapDispatchToProps)(App);
