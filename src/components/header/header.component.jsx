@@ -2,12 +2,15 @@ import React from 'react';
 
 import  { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+import CartIcon from '../cart-icon/cart-icon.components';
+import CartDropdown from '../cart-dropdown/cart-dropdown.components';
 import { auth } from '../../firebase/firebase.utils';
 
 import './header.styles.scss';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
-const Header = ( {currentUser} ) => (
+const Header = ( {currentUser, hidden} ) => (
     <div className='header'>
         <Link className='logo-container' to='/'>
             <Logo className='logo'></Logo>
@@ -26,12 +29,21 @@ const Header = ( {currentUser} ) => (
                 :
                 <Link className='option' to='/signin'>SIGN IN</Link>
             }
+            <CartIcon />
         </div>
+        { hidden ? null : <CartDropdown /> }
     </div>
 );
 
-const mapStateToProps = state => ({
-    currentUser: state.user.currentUser
+const mapStateToProps = ({user:{currentUser}, cart:{hidden}}) => ({
+    currentUser,
+    hidden
 });
 
 export default connect(mapStateToProps)(Header);
+
+
+
+// syntax used to destructor nested values
+// {user:{currentUser}, cart:{hidden}} 
+// currentUser and hidden are destructored from user and cart; user and cart are destructored off of the state
