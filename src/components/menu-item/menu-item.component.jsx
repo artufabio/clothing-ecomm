@@ -31,12 +31,18 @@ import { createStructuredSelector } from 'reselect';
 
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 
-import './menu-item.styles.scss';
+import {
+    MenuItemContainer,
+    BackgroundImageContainer,
+    ContentContainer,
+    ContentTitle,
+    ContentSubtitle
+} from './menu-item.styles';
 
 const MenuItem = ({ title,imageUrl,size,history,linkUrl,match, currentUser }) => {
     return (
-        <div 
-            className={`${size} menu-item`} 
+        <MenuItemContainer
+            size={size}
             onClick={() => {
                 if (currentUser) {
                     history.push(`${match.url}${linkUrl}`)
@@ -45,15 +51,12 @@ const MenuItem = ({ title,imageUrl,size,history,linkUrl,match, currentUser }) =>
                     history.push(`/signin`)
                 }
             }}>
-            <div 
-                className='background-image'
-                style={{ backgroundImage: `url(${imageUrl})`}} 
-            />
-            <div className='content'>
-                <h1 className='title'>{ title.toUpperCase() }</h1>
-                <span className='subtitle'>SHOP NOW</span>
-            </div>
-        </div>
+            <BackgroundImageContainer className='background-image' imageUrl={imageUrl} />
+            <ContentContainer>
+                <ContentTitle>{ title.toUpperCase() }</ContentTitle>
+                <ContentSubtitle>SHOP NOW</ContentSubtitle>
+            </ContentContainer>
+        </MenuItemContainer>
     )
 }
 
